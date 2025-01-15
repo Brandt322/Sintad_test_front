@@ -53,7 +53,7 @@ export class ModalDocumentTypeRegistryComponent implements OnInit{
 
       this.documentService.saveDocument(documentRequest).subscribe({
         next: (savedDocument) => {
-          console.log(savedDocument);
+          // console.log(savedDocument);
           this.toastService.show('success', 'Documento creado correctamente');
           this.documentCreate.emit(savedDocument);
           this.closeModalService();

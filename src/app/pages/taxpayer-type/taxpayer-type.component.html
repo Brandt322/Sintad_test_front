@@ -1,1 +1,244 @@
-<p>taxpayer-type works!</p>
+<div class="container mt-12 px-5 py-10 mx-auto space-y-2">
+  <section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="text-center mb-20">
+        <h1
+          class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4"
+        >
+          Gestión de Contribuyentes
+        </h1>
+        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
+          Todas las personas que obtienen ingresos o realizan actividades
+          económicas en territorio nacional están obligadas a cumplir con las
+          disposiciones fiscales y tributarias establecidas por la Ley.
+        </p>
+      </div>
+      <div class="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">
+        @for(taxpayer of taxpayers; track taxpayer.id) {
+        <div class="p-2 sm:w-1/2 w-full">
+          <div
+            class="bg-gray-100 rounded flex p-4 gap-4 h-full items-center justify-between"
+          >
+            <div class="flex space-x-2">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                class="w-6 h-6 flex-shrink-0"
+                [ngClass]="{
+                  'text-green-500': taxpayer.state == true,
+                  'text-red-500': taxpayer.state == false
+                }"
+                viewBox="0 0 24 24"
+              >
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                <path d="M22 4L12 14.01l-3-3"></path>
+              </svg>
+              <span class="title-font font-medium">{{ taxpayer.name }}</span>
+            </div>
+            <div class="flex space-x-2">
+              <button
+              (click)="selectedServiceData(taxpayer)"
+              class="text-indigo-500 inline-flex items-center justify-self-end cursor-pointer"
+            >
+              Ver Detalles
+              <svg
+                class="w-4 h-4 ml-2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14"></path>
+                <path d="M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+              <button
+                (click)="openModalToDelete(taxpayer.id)"
+                class="bg-green-400 rounded-tl-lg rounded-br-lg text-white dark:text-white hover:text-red-500 dark:hover:text-red-500"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="26"
+                  height="26"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 10.586l-4.293-4.293-1.414 1.414L10.586 12l-4.293 4.293 1.414 1.414L12 13.414l4.293 4.293 1.414-1.414L13.414 12l4.293-4.293-1.414-1.414z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      <app-modal-taxpayer-type-registry
+    (taxpayerCreate)="onCreateTaxpayer($event)"
+    class="flex justify-center px-5"
+  ></app-modal-taxpayer-type-registry>
+    </div>
+  </section>
+</div>
+
+<div
+  *ngIf="isModalOpenOnUpdateData"
+  [id]="'modalService' + selectedTaxpayer.id"
+  [@backgroundAnimation]
+  class="fixed flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto inset-0 h-full max-h-full bg-black bg-opacity-75"
+>
+  <div
+    [@modalAnimation]
+    class="relative w-full max-w-6xl max-h-full overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+  >
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow">
+      <div class="p-4 space-y-2">
+        <h2 class="font-bold text-lg text-center">
+          Documento {{ selectedTaxpayer.name }}
+        </h2>
+        <form
+          class="max-w-md mx-auto"
+          [formGroup]="taxpayerToUpdateForm"
+          (ngSubmit)="onUpdateTaxpayer()"
+        >
+          <div class="relative z-0 w-full mb-4 group">
+            <div class="relative z-0 w-full mb-4 group">
+              <app-text-input
+                [isDisabled]="false"
+                label="Nombre"
+                [id]="'name'"
+                [value]="taxpayerToUpdateForm.get('name')?.value"
+                formControlName="name"
+                [readonly]="false"
+              ></app-text-input>
+              <app-form-error
+                [control]="taxpayerToUpdateForm.get('name')!"
+                [errorMessage]="'Nombre requerido'"
+                [alignRight]="true"
+              ></app-form-error>
+            </div>
+          </div>
+          <div class="relative z-0 w-full mb-4 group">
+            <div class="relative z-0 w-full mb-4 group">
+              <label class="inline-flex items-center mb-5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  [value]="taxpayerToUpdateForm.get('state')?.value"
+                  class="sr-only peer"
+                  formControlName="state"
+                  [checked]="taxpayerToUpdateForm.get('state')?.value == true"
+                />
+                <div
+                  class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                ></div>
+                <span
+                  class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >{{
+                    taxpayerToUpdateForm.get("state")?.value == true
+                      ? "Activo"
+                      : "Inactivo"
+                  }}</span
+                >
+              </label>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <button
+              type="button"
+              (click)="closeModalToUpdateData()"
+              class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete taxpayer modal -->
+<div
+  @fadeInOut
+  *ngIf="confirmDeleteModal"
+  [ngClass]="{ hidden: !confirmDeleteModal, flex: confirmDeleteModal }"
+  class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[calc(100%)] max-h-full bg-[#11182780]"
+>
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button
+        (click)="closeConfirmDeleteModal()"
+        type="button"
+        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+      >
+        <svg
+          class="w-3 h-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 14"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+          />
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="p-4 md:p-5 text-center">
+        <svg
+          class="mx-auto mb-4 text-red-400 w-12 h-12 dark:text-gray-200"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-lg font-normal text-gray-500">
+            ¿Estas seguro de querer eliminar este Contribuyente?
+          </h3>
+          <span class="text-lg font-normal text-red-500"
+            >No podras recuperar los datos eliminados una vez se actualice</span
+          >
+        </div>
+        <button
+          type="submit"
+          (click)="removeTaxpayer()"
+          class="mt-5 text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+        >
+          Si, estoy seguro
+        </button>
+        <button
+          (click)="closeConfirmDeleteModal()"
+          type="button"
+          class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+        >
+          No, cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
