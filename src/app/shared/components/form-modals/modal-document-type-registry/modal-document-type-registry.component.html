@@ -1,0 +1,135 @@
+<button
+  type="submit"
+  data-modal-target="create-documents-modal"
+  data-modal-toggle="create-documents-modal"
+  (click)="openModalService()"
+  class="md:w-fit inline-flex text-center items-center p-2.5 text-sm font-medium text-white duration-200 bg-gradient-to-r from-blue-700 to-blue-500 rounded-lg hover:from-pink-500 hover:to-orange-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 w-full justify-center md:justify-start"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    class="flex-shrink-0 h-6 text-white transition duration-75"
+    viewBox="0 0 18 16"
+  >
+    <path
+      d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+    />
+  </svg>
+  <span class="ms-2 text-white font-semibold whitespace-nowrap"> AGREGAR </span>
+</button>
+
+<div
+  id="create-documents-modal"
+  tabindex="-1"
+  data-modal-backdrop="static"
+  inert
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-full"
+>
+  <div
+    class="relative p-2 mx-auto flex items-center max-w-xl xl:max-w-xl h-full"
+  >
+    <!-- Modal content -->
+    <div
+      class="relative bg-white rounded-lg shadow w-full max-h-full overflow-hidden md:max-h-[80vh]"
+    >
+      <!-- Modal header -->
+      <div
+        class="sticky bg-white z-10 top-0 flex items-center justify-between p-4 md:p-5 border-b rounded-t"
+      >
+        <h3 class="text-lg font-semibold text-gray-900">DOCUMENTOS</h3>
+
+        <button
+          type="button"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+          data-modal-toggle="create-documents-modal"
+          (click)="closeModalService()"
+        >
+          <svg
+            class="w-3 h-3"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <form
+        [formGroup]="documentForm"
+        (ngSubmit)="onSubmitService()"
+        class="overflow-y-auto p-2 max-w-xl mx-auto"
+      >
+        <div class="grid md:grid-cols-2 gap-2">
+          <div class="relative z-0 w-full mb-4 group">
+            <div class="relative z-0 w-full mb-4 group">
+              <app-text-input
+                [isDisabled]="false"
+                label="Codigo de documento"
+                [id]="'code'"
+                [value]="documentForm.get('code')?.value"
+                formControlName="code"
+                [readonly]="false"
+              ></app-text-input>
+              <app-form-error
+                [control]="documentForm.get('code')"
+                [errorMessage]="'Código requerido'"
+                [alignRight]="true"
+              ></app-form-error>
+            </div>
+          </div>
+          <div class="relative z-0 w-full mb-4 group">
+            <div class="relative z-0 w-full mb-4 group">
+              <app-text-input
+                [isDisabled]="false"
+                label="Nombre"
+                [id]="'name'"
+                [value]="documentForm.get('name')?.value"
+                formControlName="name"
+                [readonly]="false"
+              ></app-text-input>
+              <app-form-error
+                [control]="documentForm.get('name')!"
+                [errorMessage]="'Nombre requerido'"
+                [alignRight]="true"
+              ></app-form-error>
+            </div>
+          </div>
+        </div>
+        <div class="relative z-0 w-full mb-4 group">
+          <div class="relative z-0 w-full mb-4 group">
+            <textarea
+              type="text"
+              name="description"
+              id="description"
+              formControlName="description"
+              class="block py-2.5 text-sm tracking-tight px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              rows="1"
+            ></textarea>
+            <label
+              [for]="'description'"
+              class="peer-focus:font-medium absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >Description</label
+            >
+          </div>
+        </div>
+        <div class="flex justify-center pb-6">
+          <button
+            type="submit"
+            class="inline-flex items-center hover:bg-green-400 bg-green-500 text-stone-50 border-green-500 border-2 focus:ring-2 focus:outline-none focus:ring-green-500 rounded-lg font-semibold px-5 py-2.5 text-center"
+          >
+            AGREGAR
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

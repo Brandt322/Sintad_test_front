@@ -2,6 +2,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@shared/*": ["./src/app/shared/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@interfaces/*": ["./src/app/interfaces/*"],
+      "@core/*": ["./src/app/core/*"],
+      "@environments/*": ["./src/environments/*"],
+      "@auth/*": ["./src/app/auth/*"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
