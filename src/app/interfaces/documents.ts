@@ -12,3 +12,8 @@ export interface DocumentsRequest {
   description: string;
   state: boolean;
 }
+
+export interface DocumentTypeBasicResponse {
+  id: number;
+  name: string;
+}

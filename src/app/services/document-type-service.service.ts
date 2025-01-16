@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DOCUMENTS_API_ENDPOINTS } from '@core/global/constants/api-endpoints';
-import { environment } from '@environments/environment.dev';
-import { DocumentsRequest, DocumentsResponse } from '@interfaces/documents';
+import { environment } from '@environments/environment.prod';
+import { DocumentsRequest, DocumentsResponse, DocumentTypeBasicResponse } from '@interfaces/documents';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -34,5 +34,9 @@ export class DocumentTypeServiceService {
   deleteDocument(id: number) {
     const url = `${this.baseUrl}/${DOCUMENTS_API_ENDPOINTS.DELETE}/${id}`;
     return this.httpClient.delete(url, { responseType: 'text' });
+  }
+
+  getDocumentList(): Observable<DocumentTypeBasicResponse[]> {
+    return this.httpClient.get<DocumentTypeBasicResponse[]>(`${this.baseUrl}/${DOCUMENTS_API_ENDPOINTS.LIST}`);
   }
 }

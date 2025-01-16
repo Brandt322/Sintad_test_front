@@ -1,0 +1,148 @@
+<button
+  type="submit"
+  (click)="openModalService()"
+  class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+>
+  AGREGAR
+</button>
+
+<div
+  *ngIf="isModalOpenOnCreateData"
+  [id]="'modalEntityToCreate'"
+  [@backgroundAnimation]
+  class="fixed flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto inset-0 h-full max-h-full bg-black bg-opacity-75"
+>
+  <div
+    [@modalAnimation]
+    class="relative w-full max-w-8xl max-h-full overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-orange"
+  >
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow">
+      <div class="p-4 space-y-2">
+        <form
+          [formGroup]="entityForm"
+          (ngSubmit)="onCreateData()"
+          class="mx-auto space-y-2"
+        >
+          <!-- INPUTS -->
+          <div class="space-y-6">
+            <div
+              class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-2 border rounded-lg p-3 border-gray-300"
+            >
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-select-input
+                    [id]="'documento' + entityForm.get('documentTypeId')?.value"
+                    label="Tipo de Documento"
+                    optionName="Selecciona un documento"
+                    [data]="filterDocumentList"
+                    [value]="entityForm.get('documentTypeId')?.value"
+                    (optionSelected)="onSelectOption($event, 'documentTypeId')"
+                    [required]="true"
+                  ></app-select-input>
+                  <app-form-error
+                    [control]="entityForm.get('documentTypeId')"
+                    [errorMessage]="'Documento requerido'"
+                    [alignRight]="true"
+                  ></app-form-error>
+                </div>
+              </div>
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-select-input
+                    [id]="
+                      'Contribuyente' + entityForm.get('taxpayerTypeId')?.value
+                    "
+                    label="Tipo de Contribuyente"
+                    optionName="Selecciona un Contribuyente"
+                    [data]="filterTaxpayerList"
+                    [value]="entityForm.get('taxpayerTypeId')?.value"
+                    (optionSelected)="onSelectOption($event, 'taxpayerTypeId')"
+                  ></app-select-input>
+                </div>
+              </div>
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-text-input
+                    label="Numero de Documento"
+                    [id]="'documento actualizar'"
+                    [value]="entityForm.get('documentNumber')?.value"
+                    formControlName="documentNumber"
+                  ></app-text-input>
+                  <app-form-error
+                    [control]="entityForm.get('documentNumber')"
+                    [errorMessage]="'Nº de documento requerido'"
+                    [alignRight]="true"
+                  ></app-form-error>
+                </div>
+              </div>
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-text-input
+                    label="Razón Social"
+                    [id]="'razon social actualizar'"
+                    [value]="entityForm.get('companyName')?.value"
+                    formControlName="companyName"
+                  ></app-text-input>
+                  <app-form-error
+                    [control]="entityForm.get('companyName')"
+                    [errorMessage]="'Razon social requerido'"
+                    [alignRight]="true"
+                  ></app-form-error>
+                </div>
+              </div>
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-text-input
+                    label="Nombre Comercial"
+                    [id]="'tradeName actualizar'"
+                    [value]="entityForm.get('tradeName')?.value"
+                    formControlName="tradeName"
+                  ></app-text-input>
+                </div>
+              </div>
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-text-input
+                    label="Dirección"
+                    [id]="'address actualizar'"
+                    [value]="entityForm.get('address')?.value"
+                    formControlName="address"
+                  ></app-text-input>
+                </div>
+              </div>
+              <div class="relative z-0 w-full mb-4 group">
+                <div class="relative z-0 w-full mb-4 group">
+                  <app-text-input
+                    label="Numero de Telefono"
+                    [id]="'cellphone actualizar'"
+                    [value]="entityForm.get('cellphone')?.value"
+                    formControlName="cellphone"
+                  ></app-text-input>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div
+            class="grid gap-2 mx-auto max-w-xl sticky bottom-1 left-0 right-0 shadow-m z-50"
+          >
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center transition delay-75 ease-in-out"
+            >
+              Agregar
+            </button>
+            <button
+              (click)="closeModalService()"
+              type="button"
+              class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

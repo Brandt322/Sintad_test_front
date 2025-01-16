@@ -1,30 +1,30 @@
 import { Injectable } from "@angular/core";
 import { TaxpayerTypeServiceService } from '../../services/taxpayer-type-service.service';
 import { BehaviorSubject, Observable } from "rxjs";
-import { TaxpayerResponse } from "@interfaces/taxpayer";
+import { TaxpayerTypeBasicResponse } from "@interfaces/taxpayer";
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaxpayerTypeStateService {
-    private taxpayerSubject: BehaviorSubject<TaxpayerResponse[]> = new BehaviorSubject<TaxpayerResponse[]>([]);
-		taxpayer$: Observable<TaxpayerResponse[]> = this.taxpayerSubject.asObservable();
+    private taxpayerSubject: BehaviorSubject<TaxpayerTypeBasicResponse[]> = new BehaviorSubject<TaxpayerTypeBasicResponse[]>([]);
+		taxpayer$: Observable<TaxpayerTypeBasicResponse[]> = this.taxpayerSubject.asObservable();
 
     constructor(private taxpayerService: TaxpayerTypeServiceService) {}
 
 		loadTaxpayerTypes(): void {
-			this.taxpayerService.getAllTaxpayerTypes().subscribe((taxpayerTypes: TaxpayerResponse[]) => {
+			this.taxpayerService.getAllTaxpayerTypes().subscribe((taxpayerTypes: TaxpayerTypeBasicResponse[]) => {
 				this.taxpayerSubject.next(taxpayerTypes);
 			});
 		}
 
-		addTaxpayerType(taxpayerTypeRequest: TaxpayerResponse): void {
+		addTaxpayerType(taxpayerTypeRequest: TaxpayerTypeBasicResponse): void {
 			const taxpayerTypes = this.taxpayerSubject.getValue();
 			taxpayerTypes.unshift(taxpayerTypeRequest);
 			this.taxpayerSubject.next(taxpayerTypes);
 		}
 
-		updateTaxpayerType(taxpayerTypeRequest: TaxpayerResponse, id: number): void {
+		updateTaxpayerType(taxpayerTypeRequest: TaxpayerTypeBasicResponse, id: number): void {
 			const taxpayerTypes = this.taxpayerSubject.getValue();
 			const index = taxpayerTypes.findIndex((taxpayerType) => taxpayerType.id === id);
 			if (index !== -1) {

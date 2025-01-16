@@ -61,7 +61,9 @@ export class ServerErrorsInterceptor implements HttpInterceptor {
           this.toastService.show('normal', detail404);
           return throwError(() => error);
         case 500:
-          this.toastService.show('error', 'Error, intentalo más tarde');
+          let detail500 = error.error.message || error.error.error || error.error || 'Error interno del servidor';
+          console.log(detail500);
+          this.toastService.show('error', detail500);
           break;
         default:
           return EMPTY;

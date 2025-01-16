@@ -13,8 +13,8 @@
       </p>
     </div>
     <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-2">
-      <div class="w-full p-4 relative">
-        <div class="border border-gray-200 p-6 rounded-lg">
+      <div class="w-full p-4 relative" *ngIf="roles.includes('ROLE_ADMINISTRADOR')">
+        <div class="border border-gray-200 p-6 rounded-lg bg-slate-300">
           <div
             class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4"
           >
@@ -52,8 +52,8 @@
           </div>
         </div>
       </div>
-      <div class="w-full p-4">
-        <div class="border border-gray-200 p-6 rounded-lg">
+      <div class="w-full p-4" *ngIf="roles.includes('ROLE_ADMINISTRADOR')">
+        <div class="border border-gray-200 p-6 rounded-lg bg-slate-300">
           <div
             class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4"
           >
@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="w-full p-4">
-        <div class="border border-gray-200 p-6 rounded-lg">
+        <div class="border border-gray-200 p-6 rounded-lg bg-slate-300">
           <div
             class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4"
           >

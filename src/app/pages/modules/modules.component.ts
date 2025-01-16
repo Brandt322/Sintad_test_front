@@ -1,10 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modules',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './modules.component.html',
   styleUrl: './modules.component.css'
 })
@@ -20,9 +21,9 @@ export class ModulesComponent implements OnInit {
       const storedObject = JSON.parse(sessionData);
       const { userPrincipal, authorities } = storedObject;
       const { username } = userPrincipal;
-      this.roles = authorities[0];
+      this.roles = authorities.map((authority: any) => authority.authority);
       this.username = username;
-      console.log('roles:', this.roles);
+      // console.log('roles:', this.roles);
     }
   }
 

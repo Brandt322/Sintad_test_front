@@ -18,7 +18,7 @@ import { FormErrorComponent } from '@shared/components/form-inputs/form-error/fo
 import { TextInputComponent } from '@shared/components/form-inputs/text-input/text-input.component';
 import { TaxpayerTypeStateService } from './taxpayer-type-state.service';
 import { TaxpayerTypeServiceService } from '@services/taxpayer-type-service.service';
-import { TaxpayerResponse } from '@interfaces/taxpayer';
+import { TaxpayerTypeBasicResponse } from '@interfaces/taxpayer';
 import { ModalTaxpayerTypeRegistryComponent } from "../../shared/components/form-modals/modal-taxpayer-type-registry/modal-taxpayer-type-registry.component";
 
 @Component({
@@ -81,11 +81,11 @@ import { ModalTaxpayerTypeRegistryComponent } from "../../shared/components/form
   ],
 })
 export class TaxpayerTypeComponent implements OnInit {
-  taxpayers: TaxpayerResponse[] = [];
+  taxpayers: TaxpayerTypeBasicResponse[] = [];
   isModalOpenOnUpdateData = false;
   confirmDeleteModal = false;
   idToDelete!: number;
-  selectedTaxpayer!: TaxpayerResponse;
+  selectedTaxpayer!: TaxpayerTypeBasicResponse;
 
   taxpayerToUpdateForm!: FormGroup;
 
@@ -107,7 +107,7 @@ export class TaxpayerTypeComponent implements OnInit {
     this.taxpayerState.loadTaxpayerTypes();
   }
 
-  onCreateTaxpayer(taxpayer: TaxpayerResponse): void {
+  onCreateTaxpayer(taxpayer: TaxpayerTypeBasicResponse): void {
     this.taxpayerState.addTaxpayerType(taxpayer);
     this.loadTaxpayers();
   }
@@ -119,7 +119,7 @@ export class TaxpayerTypeComponent implements OnInit {
       return;
     }
 
-    const taxpayerUpdated: TaxpayerResponse = {
+    const taxpayerUpdated: TaxpayerTypeBasicResponse = {
       ...this.taxpayerToUpdateForm.value,
     };
 
@@ -161,11 +161,11 @@ export class TaxpayerTypeComponent implements OnInit {
     });
   }
 
-  selectedServiceData(taxpayer: TaxpayerResponse): void {
+  selectedServiceData(taxpayer: TaxpayerTypeBasicResponse): void {
     // this.requestOptions();
     this.taxpayerService
       .getTaxpayerTypeById(taxpayer.id)
-      .subscribe((selectedTaxpayer: TaxpayerResponse) => {
+      .subscribe((selectedTaxpayer: TaxpayerTypeBasicResponse) => {
         this.selectedTaxpayer = selectedTaxpayer;
         this.initTaxpayerForm(selectedTaxpayer);
         // console.log(this.selectedDocument);
@@ -173,7 +173,7 @@ export class TaxpayerTypeComponent implements OnInit {
       });
   }
 
-  initTaxpayerForm(taxpayer: TaxpayerResponse): void {
+  initTaxpayerForm(taxpayer: TaxpayerTypeBasicResponse): void {
     this.taxpayerToUpdateForm = this.formBuilder.group({
       name: [taxpayer.name],
       state: [taxpayer.state],
@@ -182,7 +182,7 @@ export class TaxpayerTypeComponent implements OnInit {
 
   closeModalToUpdateData(): void {
     this.isModalOpenOnUpdateData = false;
-    this.selectedTaxpayer = {} as TaxpayerResponse;
+    this.selectedTaxpayer = {} as TaxpayerTypeBasicResponse;
     this.taxpayerToUpdateForm.reset();
   }
 

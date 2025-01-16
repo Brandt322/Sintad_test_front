@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastService } from '@core/toast/toast.service';
-import { TaxpayerRequest, TaxpayerResponse } from '@interfaces/taxpayer';
+import { TaxpayerRequest, TaxpayerTypeBasicResponse } from '@interfaces/taxpayer';
 import { TaxpayerTypeServiceService } from '@services/taxpayer-type-service.service';
 import { FormErrorComponent } from '@shared/components/form-inputs/form-error/form-error.component';
 import { TextInputComponent } from '@shared/components/form-inputs/text-input/text-input.component';
@@ -28,7 +28,7 @@ import { Modal } from 'flowbite';
 })
 export class ModalTaxpayerTypeRegistryComponent implements OnInit {
   taxpayerForm!: FormGroup;
-  @Output() taxpayerCreate = new EventEmitter<TaxpayerResponse>();
+  @Output() taxpayerCreate = new EventEmitter<TaxpayerTypeBasicResponse>();
 
   constructor(
     private formBuilder: FormBuilder,

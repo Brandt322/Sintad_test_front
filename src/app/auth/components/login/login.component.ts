@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     sessionStorage.clear();
 
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       },
       error: (err: any) => {
         // alert('Usuario o contraseña incorrectos.');
-        console.log('Error: ', err);
+        console.log('Error: ', err.message);
       }
     });
   }

@@ -3,5 +3,5 @@ export const environment = {
   production: true,
   // url: 'ec2',
   // otras variables de entorno
-  // url: 'http://localhost:8080',
+  url: 'http://56.124.62.74',
 };

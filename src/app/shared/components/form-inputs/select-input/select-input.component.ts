@@ -16,6 +16,7 @@ export class SelectInputComponent {
   @Input() value: string = 'null';
   @Input() optionName!: string;
   @Input() disabled: boolean = false;
+  @Input() required: boolean = false;
   @Output() optionSelected = new EventEmitter<string | null>();
 
   isInvalid: boolean = false;
